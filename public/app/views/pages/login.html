@@ -1,0 +1,56 @@
+<div style="margin-left: 5%; margin-right: 20%;">
+    <div class="row text-center">
+        <div class="container">
+            <h2 class="section-heading">User Login</h2>
+            <h3 class="section-subheading text-muted">Please enter your Login Information.</h3>
+        </div>
+    </div>
+    <br>
+    <div>
+        <form name="main.ownerForm" ng-submit="main.loginowner(ownerloginData)">
+            <div class="form-group">
+                <label>Email:</label>
+                <div class="input-group">
+                    <input ng-disabled="main.disabled" type="text" class="form-control" name="email" placeholder="Enter the email" ng-model="main.ownerloginData.email">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>   
+                </div>        
+            </div>    
+            <div class="form-group">
+                <label>Password:</label>
+                <div class="input-group">
+                    <input ng-disabled="main.disabled" type="password" class="form-control" name="password" placeholder="Enter the password" ng-model="main.ownerloginData.password">
+                    <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true" style="font-size:18px;"></i></span>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-lg-12 text-left">
+                <div class="reset">
+                    <a href="/resetpassword" ng-disabled="main.disabled" class="alert-danger">Forgot Password ?</a>&nbsp;&nbsp;
+                    <a href="/resetemail" ng-disabled="main.disabled" class="alert-danger">Forgot E-mail ?</a>
+                </div>
+            </div>
+            <button ng-disabled="main.disabled" class="btn btn-primary" type="submit">Submit</button>&nbsp;&nbsp;
+            <a href="/register" ng-disabled="main.disabled" class="alert-success">Have no Acc.?</a>
+        </form>
+    </div>
+    
+    <br>
+            
+    <div class="jumbotron text-center" ng-show="main.loading">
+        <span class="glyphicon glyphicon-repeat spinner"></span>
+        <p>Loading....</p>
+    </div>
+    
+    <div class="row show-hide-message" ng-show="main.successmsg">
+        <div class="alert alert-success">{{main.successmsg}}</div>
+    </div>
+    <div class="row show-hide-message" ng-show="main.errormsg">
+        <div class="alert alert-danger">{{main.errormsg}}&nbsp;
+            <a ng-show="main.expired" href="/resend">
+                <button type="button" class="btn btn-success">Resend Activation Link</button>
+            </a>
+        </div>
+    </div>    
+</div>
+
+

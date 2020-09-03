@@ -1,0 +1,163 @@
+<div style="margin-left: 5%; margin-right: 20%;">
+    <div class="row text-center">
+        <div class="container">
+            <h2 class="section-heading">House Details</h2>
+            <h3 class="section-subheading text-muted">Hello <strong>{{ main.name }}, </strong>show comfortable home</h3>
+        </div>
+    </div>
+    <div ng-show="tenant.alldetails">
+        <div class="jumbotron text-center" ng-show="tenant.loading">
+            <span class="glyphicon glyphicon-repeat spinner"></span>
+            <p>Loading....</p>
+        </div>
+        <br>
+        <button type="button" ng-click="tenant.showMore(number);" class="btn btn-success">Apply Filter</button>
+    
+        <button type="button" ng-click="tenant.showAll();" class="btn btn-warning">Show All</button>
+    
+        <div class="showmore">
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <span class="input-group-addon">Results to display:</span>
+                    <input type="text" class="form-control" ng-model="number">
+                </div>
+            </div>
+        </div>
+        <div class="navbar-form">
+            <div class="form-group">
+                <input type="text" class="form-control" name="search" placeholder="search for..." ng-model="searchKeyword">
+            </div>
+            <button type="button" ng-click="tenant.search(searchKeyword, number);" class="btn btn-default">Search</button>
+            <button type="button" ng-click="tenant.clear();" class="btn btn-default">Clear</button>
+        </div>
+        <br>
+        <div ng-show="searchFilter !== undefined">
+            <p><strong>Total results: </strong>{{ (tenant.users | filter: searchFilter | filter: 'house').length }}</p>
+        </div>
+        <div ng-show="searchFilter !== undefined">
+            <p><strong>Showing: </strong>{{( tenant.users | filter: searchFilter | limitTo: tenant.limit | filter: 'house').length }}</p>
+        </div>
+        <br>    
+        <div class="row show-hide-message" ng-show="tenant.showMoreError">
+            <div class="alert alert-danger">{{ tenant.showMoreError }}</div>
+        </div>
+        <br>
+        
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <strong>House Details</strong>
+            </div>
+            <table class="table">
+                <tr>
+                    
+                    <th>House Type</th>
+                    <th>Fesility</th>
+                    <th>Address</th>
+                    <th>Rent Price</th>
+                </tr>
+                <tr ng-repeat="person in tenant.users | filter: searchFilter | limitTo: tenant.limit | filter: 'house'" >
+                    <td>{{ person.housetype}}</td>
+                    <td>{{ person.functionality}}</td>
+                    <td>{{ person.houseaddress }}</td>
+                    <td>{{ person.rentprice }}</td>
+                    <td><button type="button" class="btn btn-default" ng-click="tenant.getdetails(person)">Details</button></td>
+                </tr>
+            </table>
+        </div>
+        
+        <br>
+        <button type="button" ng-click="tenant.showMore(number);" class="btn btn-success">Apply Filter</button>
+    
+        <button type="button" ng-click="tenant.showAll();" class="btn btn-warning">Show All</button>
+    
+        <div class="showmore">
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <span class="input-group-addon">Results to display:</span>
+                    <input type="text" class="form-control" ng-model="number">
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <div class="row show-hide-message" ng-show="tenant.showMoreError">
+            <div class="alert alert-danger">{{ tenant.showMoreError }}</div>
+        </div>
+    </div>
+    <!-- Booking Details-->
+    <div ng-show="tenant.houseDetails">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <strong>House Details</strong>
+            </div>
+            <table class="table">
+                <tr>
+                    <th>Name</th>
+                    <th>Mobile</th>
+                    <th>House Type</th>
+                    <th>Rent Price</th>
+                    <th>Address</th>
+                </tr>
+                <tr>
+                    <td>{{ details.name }}</td>
+                    <td>{{ details.mobile }}</td>
+                    <td>{{ details.housetype}}</td>
+                    <td>{{ details.rentprice }}</td>
+                    <td>{{ details.houseaddress }}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="row">
+            <div class="column">
+                <figure>
+                    <img ng-if="details.livingroom" src="uploads/livingroom/{{details.livingroom}}" alt="Hall" style="width:100%">
+                    <figcaption ng-if="details.livingroom"><center>Living-Room(Hall)</center></figcaption>
+                </figure>    
+            </div>
+            <div class="column">
+                <figure>
+                    <img ng-if="details.froom" src="uploads/room1/{{details.froom}}" alt="Room1" style="width:100%">
+                    <figcaption ng-if="details.froom"><center>Bed-Room_1</center></figcaption>
+                </figure>    
+            </div>
+            <div class="column">
+                <figure>
+                    <img ng-if="details.sroom" src="uploads/room2/{{details.sroom}}" alt="Room2" style="width:100%">
+                    <figcaption ng-if="details.sroom"><center>Bed-Room_2</center></figcaption>
+                </figure>    
+            </div>
+            <div class="column">
+                <figure>
+                    <img ng-if="details.troom" src="uploads/room3/{{details.troom}}" alt="Room3" style="width:100%">
+                    <figcaption ng-if="details.troom"><center>Bed-Room_3</center></figcaption>
+                </figure>    
+            </div>
+            <div class="column">
+                <figure>
+                    <img ng-if="details.kichen" src="uploads/KIchen/{{details.kichen}}" alt="kichen" alt="Hall" style="width:100%">
+                    <figcaption ng-if="details.kichen"><center>Kichen</center></figcaption>
+                </figure>    
+                <br>
+            </div>
+        </div>
+        <br><br>
+        <button ng-disabled="tenant.disabled" type="button" ng-click="tenant.booking(details)" class="btn btn-success">Booking</button>
+    
+        <button ng-disabled="tenant.disabled" type="button" ng-click="tenant.closetab();" class="btn btn-warning">Close</button>
+
+        <br><br><br><br>
+            
+        <div class="jumbotron text-center" ng-show="tenant.loading">
+            <span class="glyphicon glyphicon-repeat spinner"></span>
+            <p>Loading....</p>
+        </div>
+        
+        <div class="row show-hide-message" ng-show="tenant.successmsg">
+            <div class="alert alert-success">{{tenant.successmsg}}</div>
+        </div>
+        <div class="row show-hide-message" ng-show="tenant.errormsg">
+            <div class="alert alert-danger">{{tenant.errormsg}}</div>
+        </div>
+    </div>
+    <br><br><br>
+</div>

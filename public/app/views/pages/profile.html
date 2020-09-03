@@ -1,0 +1,104 @@
+<div style="margin-left: 8%; margin-top:8%; margin-right: 20%;">
+    <div class="page-header">
+        <h2>{{main.name}}'s Profile</h2>
+    </div>
+    <div class="container bootstrap snippet">
+        <div class="panel-body inf-content">
+            <div class="row">
+                <div class="col-md-4">
+                    <img ng-if="!main.image" alt="profileImage" class="imagexyz" ng-src="uploads/profiles/img_avatar.png"  data-original-title="Usuario"> 
+                    <img ng-if="main.image" alt="profileImage" class="imagexyz" ng-src="uploads/profiles/{{main.image}}"  data-original-title="Usuario"> 
+                    <ul title="Ratings" class="list-inline ratings text-center">
+                        <br>
+                        <form ng-submit="main.submit()" enctype="multipart/form-data">
+                            <input type="file" file-input="file.upload" name="myfile" ng-hide="main.imagefile" ><br>
+                            <button ng-hide="main.imagefile">Upload</button>
+                        </form>
+                    </ul>
+                </div>
+                <!--onchange="angular.element(this).scope().photoChanged(this.files)"-->
+                <div class="col-md-6">
+                    <strong>Information</strong><br>
+                    <div class="table-responsive">
+                    <table class="table table-user-information">
+                        <tbody>
+                            <tr>        
+                                <td>
+                                    <strong>
+                                        <span class="glyphicon glyphicon-user text-primary"></span>
+                                        Name                                                
+                                    </strong>
+                                </td>
+                                <td class="text-primary">
+                                    {{ main.name }}     
+                                </td>
+                            </tr>
+                            <tr>    
+                                <td>
+                                    <strong>
+                                        <span class="glyphicon glyphicon-cloud  text-primary"></span>    
+                                        Mobile Number                                                
+                                    </strong>
+                                </td>
+                                <td class="text-primary">
+                                    {{ main.mobile }}     
+                                </td>
+                            </tr>
+                            <tr>        
+                                <td>
+                                    <strong>
+                                        <span class="glyphicon glyphicon-envelope text-primary"></span>  
+                                        E-mail                                                
+                                    </strong>
+                                </td>
+                                <td class="text-primary">
+                                    {{ main.email }}  
+                                </td>
+                            </tr>
+                            <tr>        
+                                <td>
+                                    <strong>
+                                        <span class="glyphicon glyphicon-asterisk text-primary"></span> 
+                                        Id-Card                                                
+                                    </strong>
+                                </td>
+                                <td class="text-primary">
+                                    {{ main.idcard }}
+                                </td>
+                            </tr>
+                            <tr>        
+                                <td>
+                                    <strong>
+                                        <span class="glyphicon glyphicon-bookmark text-primary"></span> 
+                                        Address                                                
+                                    </strong>
+                                </td>
+                                <td class="text-primary">
+                                    {{ main.address }}
+                                </td>
+                            </tr>                                    
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+            <a href="/edit/{{main.mobile}}">
+                <button class="btn btn-primary"><i class="fa fa-pencil-square-o" style="font-size: 16px;" aria-hidden="true"></i>&nbsp;&nbsp; Edit &nbsp;</button>
+            </a> &nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="#">
+                <button class="btn btn-danger" ng-click="main.deleteUser(main.mobile);"><i class="fa fa-trash-o" style="font-size: 16px;" aria-hidden="true"></i>&nbsp; Delete</button>
+            </a>
+        </div>
+    </div> 
+    <div class="jumbotron text-center" ng-show="main.loading">
+        <span class="glyphicon glyphicon-repeat spinner"></span>
+        <p>Loading....</p>
+    </div>
+    
+    <div class="row show-hide-message" ng-show="main.successmsg">
+        <div class="alert alert-success">{{main.successmsg}}</div>
+    </div>
+    <div class="row show-hide-message" ng-show="main.errormsg">
+        <div class="alert alert-danger">{{main.errormsg}}</div>
+    </div>
+</div>

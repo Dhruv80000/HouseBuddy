@@ -1,0 +1,27 @@
+<div class="row text-center">
+    <div class="container">
+        <h2 class="section-heading">Forgot E-mail</h2>
+    </div>
+</div>
+<div>
+    <form name="userForm" ng-submit="resetemail.sendemail(userData, userForm.$valid)" novalidate>
+        <div class="form-group">
+            <label>Mobile:</label>
+            <input ng-disabled="resetemail.disabled" class="form-control" type="text" name="mobile" placeholder="Enter the mobile" ng-model="resetemail.userData.mobile" required>
+        </div>        
+        <button ng-disabled="resetemail.disabled" class="btn btn-primary" type="submit">Submit</button>
+    </form>
+    <br>
+
+    <div class="jumbotron text-center" ng-show="resetemail.loading">
+        <span class="glyphicon glyphicon-repeat spinner"></span>
+        <p>Loading....</p>
+    </div>
+    
+    <div class="row show-hide-message" ng-show="resetemail.successmsg">
+        <div class="alert alert-success">{{resetemail.successmsg}}</div>
+    </div>
+    <div class="row show-hide-message" ng-show="resetemail.errormsg">
+        <div class="alert alert-danger">{{resetemail.errormsg}}</div> 
+    </div>
+</div>

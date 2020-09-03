@@ -1,0 +1,240 @@
+<div style="margin-top: 8%; margin-left: 5%; margin-right: 20%;">
+    <div ng-show="owner.showdata">
+        <div class="page-header">
+            <h2>{{owner.name}}'s show Details</h2>
+        </div>
+        <div class="panel panel-info">
+        
+            <!-- Default panel contents -->
+            <div class="panel-heading" style="text-align: center;"><strong>Confirmation</strong></div>
+        
+            <!-- Table -->
+            <table class="table">
+                <tr>
+                    <th>Name</th>
+                    <th>Mobile Number</th>
+                    <th>House Type</th>
+                    <th>Rent Price</th>
+                    <th>Rent-House Address</th>
+                </tr>
+                <tr>
+                    <td>{{ owner.name }}</td>
+                    <td>{{ owner.mobile }}</td>
+                    <td>{{ owner.housetype }}</td>
+                    <td>{{ owner.rentprice }}</td>
+                    <td>{{ owner.houseaddress }}</td>
+                </tr>
+            </table>
+        </div>
+        <form ng-submit="owner.checkdetails(ownerRegData)" enctype="multipart/form-data">
+            <input type="hidden" name="confirmowner" ng-init="owner.ownerRegData.confirmowner = 'house'" ng-value="owner.ownerRegData.confirmowner">
+            <div class="form-group">
+                <label>Functionality:</label>
+                <select class="custom-select form-control" ng-model="owner.ownerRegData.functionality" ng-options="x for x in names" ng-blur="owner.checkfun(ownerRegData)">
+                </select>
+            </div>
+            <br>
+            <div class="form-group" ng-hide="owner.live">
+                <label for="Main-room">Main-Hall Image:</label>
+                <input type="file" file-input="livingroom.upload" name="mylivingroom" ng-hide="owner.imagefile" ><br>
+                <img ng-if="!owner.livingroom" src="uploads/livingroom/livingroom.jpg" alt="Hall" height="300" width="300">
+                <img ng-if="owner.livingroom" src="uploads/livingroom/{{owner.livingroom}}" alt="Hall" height="300" width="300">
+            </div>
+            <div class="form-group" ng-hide="owner.live">
+                <label for="Main-room1">Room1 Image:</label>
+                <input type="file" file-input="froom.upload" name="myfroom" ng-hide="owner.imagefile" ><br>
+                <img ng-if="!owner.froom" src="uploads/room1/livingroom.jpg" alt="room1" height="300" width="300">
+                <img ng-if="owner.froom" src="uploads/room1/{{owner.froom}}" alt="room1" height="300" width="300">
+            </div>
+            <div class="form-group" ng-hide="owner.live">
+                <label for="Main-room2">Room2 Image</label>
+                <input type="file" file-input="sroom.upload" name="mysroom" ng-hide="owner.imagefile" ><br>
+                <img ng-if="!owner.sroom" src="uploads/room2/livingroom.jpg" alt="room2" height="300" width="300">
+                <img ng-if="owner.sroom" src="uploads/room2/{{owner.sroom}}" alt="room2" height="300" width="300">
+            </div>
+            <div class="form-group" ng-hide="owner.room">
+                <label for="Main-room3">Room3 Image</label>
+                <input type="file" file-input="troom.upload" name="mytroom" ng-hide="owner.imagefile" ><br>
+                <img ng-if="!owner.troom" src="uploads/room3/livingroom.jpg" alt="room3" height="300" width="300">
+                <img ng-if="owner.troom" src="uploads/room3/{{owner.troom}}" alt="room3" height="300" width="300">
+            </div>
+            <div class="form-group" ng-hide="owner.live">
+                <label for="Main-room4">Kichen Image</label>
+                <input type="file" file-input="kichen.upload" name="mykichen" ng-hide="owner.imagefile" ><br>
+                <img ng-if="!owner.kichen" src="uploads/KIchen/kichen.jpeg" alt="kichen" height="300" width="300">
+                <img ng-if="owner.kichen" src="uploads/KIchen/{{owner.kichen}}" alt="kichen" height="300" width="300">
+            </div>
+            <button ng-disabled="owner.disabled" class="btn btn-primary" type="submit">Submit</button>&nbsp;&nbsp;
+            <button ng-disabled="owner.disabled" ng-click="owner.cancelHouse(ownerRegData)" type="button" class="btn btn-info">Cancel</button>
+        </form>    
+        <br><br><br>
+        <div class="jumbotron text-center" ng-show="owner.loading">
+            <span class="glyphicon glyphicon-repeat spinner"></span>
+            <p>Loading....</p>
+        </div>
+        <div class="row show-hide-message" ng-show="owner.successmsg">
+            <div class="alert alert-success">{{owner.successmsg}}</div>
+        </div>
+        <div class="row show-hide-message" ng-show="owner.errormsg">
+            <div class="alert alert-danger">{{owner.errormsg}}</div>
+        </div>
+    </div>
+    <!--Second part of Confirmation-->
+    <div ng-show="owner.checkdata">
+        <div class="container-fluid">
+            <h2 style="text-align:center;color:hotpink;">{{owner.name}}'s Check Details</h2><br>
+            <div class="container bootstrap snippet">
+                <div class="panel-body inf-content">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img ng-if="!owner.image" alt="profileImage" class="imagexyz" ng-src="uploads/profiles/img_avatar.png"  data-original-title="Usuario"> 
+                            <img ng-if="owner.image" alt="profileImage" class="imagexyz" ng-src="uploads/profiles/{{owner.image}}"  data-original-title="Usuario"> 
+                            <ul title="Ratings" class="list-inline ratings text-center">
+                                <br>
+                            </ul>
+                        </div>
+                        <!--onchange="angular.element(this).scope().photoChanged(this.files)"-->
+                        <div class="col-md-6">
+                            <strong>Information</strong><br>
+                            <div class="table-responsive">
+                            <table class="table table-user-information">
+                                <tbody>
+                                    <tr>        
+                                        <td>
+                                            <strong>
+                                                <span class="glyphicon glyphicon-user text-primary"></span>
+                                                Name                                                
+                                            </strong>
+                                        </td>
+                                        <td class="text-primary">
+                                            {{ owner.name }}     
+                                        </td>
+                                    </tr>
+                                    <tr>    
+                                        <td>
+                                            <strong>
+                                                <span class="glyphicon glyphicon-cloud  text-primary"></span>    
+                                                Mobile Number                                                
+                                            </strong>
+                                        </td>
+                                        <td class="text-primary">
+                                            {{ owner.mobile }}     
+                                        </td>
+                                    </tr>
+                                    <tr>        
+                                        <td>
+                                            <strong>
+                                                <span class="glyphicon glyphicon-envelope text-primary"></span>  
+                                                E-mail                                                
+                                            </strong>
+                                        </td>
+                                        <td class="text-primary">
+                                            {{ owner.email }}  
+                                        </td>
+                                    </tr>
+                                    <tr>        
+                                        <td>
+                                            <strong>
+                                                <span class="glyphicon glyphicon-asterisk text-primary"></span> 
+                                                Id-Card                                                
+                                            </strong>
+                                        </td>
+                                        <td class="text-primary">
+                                            {{ owner.idcard }}
+                                        </td>
+                                    </tr>
+                                    <tr>        
+                                        <td>
+                                            <strong>
+                                                <span class="glyphicon glyphicon-tasks text-primary"></span>
+                                                House Type                                                
+                                            </strong>
+                                        </td>
+                                        <td class="text-primary">
+                                            {{ owner.housetype }}     
+                                        </td>
+                                    </tr>
+                                    <tr>        
+                                        <td>
+                                            <strong>
+                                                <span class="glyphicon glyphicon- text-primary"><i class="fa fa-rupee" style="font-size:21px"></i></span>
+                                                Rent Price                                                
+                                            </strong>
+                                        </td>
+                                        <td class="text-primary">
+                                            {{ owner.rentprice }}     
+                                        </td>
+                                    </tr>
+                                    <tr>        
+                                        <td>
+                                            <strong>
+                                                <span class="glyphicon glyphicon-bookmark text-primary"></span> 
+                                                Address                                                
+                                            </strong>
+                                        </td>
+                                        <td class="text-primary">
+                                            {{ owner.address }}
+                                        </td>
+                                    </tr>                                    
+                                </tbody>
+                            </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="column">
+                    <figure>
+                        <img ng-if="!owner.livingroom" src="uploads/livingroom/livingroom.jpg" alt="Hall" style="width:100%">
+                        <img ng-if="owner.livingroom" src="uploads/livingroom/{{owner.livingroom}}" alt="Hall" style="width:100%">
+                        <figcaption><center>Living-Room(Hall)</center></figcaption>
+                    </figure>    
+                </div>
+                <div class="column">
+                    <figure>
+                        <img ng-if="!owner.froom" src="uploads/room1/livingroom.jpg" alt="Room1" style="width:100%">
+                        <img ng-if="owner.froom" src="uploads/room1/{{owner.froom}}" alt="Room1" style="width:100%">
+                        <figcaption><center>Bed-Room_1</center></figcaption>
+                    </figure>    
+                </div>
+                <div class="column">
+                    <figure>
+                        <img ng-if="!owner.sroom" src="uploads/room2/livingroom.jpg" alt="Room2" style="width:100%">
+                        <img ng-if="owner.sroom" src="uploads/room2/{{owner.sroom}}" alt="Room2" style="width:100%">
+                        <figcaption><center>Bed-Room_2</center></figcaption>
+                    </figure>    
+                </div>
+                <div class="column">
+                    <figure>
+                        <img ng-if="!owner.troom" src="uploads/room3/livingroom.jpg" alt="Room3" style="width:100%">
+                        <img ng-if="owner.troom" src="uploads/room3/{{owner.troom}}" alt="Room3" style="width:100%">
+                        <figcaption><center>Bed-Room_3</center></figcaption>
+                    </figure>    
+                </div>
+                <div class="column">
+                    <figure>
+                        <img ng-if="!owner.kichen" src="uploads/KIchen/kichen.jpeg" alt="kichen" style="width:100%">
+                        <img ng-if="owner.kichen" src="uploads/KIchen/{{owner.kichen}}" alt="kichen" alt="Hall" style="width:100%">
+                        <figcaption><center>Kichen</center></figcaption>
+                    </figure>    
+                    <br>
+                </div>
+            </div>
+            <button ng-disabled="owner.disabled" class="btn btn-primary" ng-click="owner.confirm()" type="button">Confirm</button>&nbsp;&nbsp;
+            <button ng-disabled="owner.disabled" ng-click="owner.cancelHouse(ownerRegData)" type="button" class="btn btn-info">Cancel</button>
+            <br><br>
+        </div>
+        <br><br><br>
+        <div class="jumbotron text-center" ng-show="owner.loading">
+            <span class="glyphicon glyphicon-repeat spinner"></span>
+            <p>Loading....</p>
+        </div>
+        <div class="row show-hide-message" ng-show="owner.successmsgs">
+            <div class="alert alert-success">{{owner.successmsgs}}</div>
+        </div>
+        <div class="row show-hide-message" ng-show="owner.errormsgs">
+            <div class="alert alert-danger">{{owner.errormsgs}}</div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,129 @@
+<div style="margin-left: 5%; margin-right: 20%;">
+    <div class="row text-center">
+        <div class="container">
+            <h2 class="section-heading">Edit Details</h2>
+            <h3 class="section-subheading text-muted">Hello {{edit.name}}, Update your details</h3>
+        </div>
+    <br><br>
+        <div class="container">
+            <div class="main-body">
+                <form name="editForm" ng-submit="edit.submit(newName, newEmail, newMobile, newIdcard, newAddress, editForm.$valid)" enctype="multipart/form-data" novalidate> 
+                    <div class="row gutters-sm">
+                        <div class="col-md-4 mb-3">
+                          <div class="card">
+                            <div class="card-body">
+                              <div class="d-flex flex-column align-items-center text-center">
+                                <img src="uploads/profiles/{{edit.newImage}}" alt="ProfileImage" class="rounded-circle" width="150">
+                                <div class="mt-3">
+                                  <h4>{{edit.name}}</h4>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="card mt-3">
+                              fileupload
+                          </div>
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card mb-3">
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col-sm-3">
+                                  <h5 class="mb-0">Full Name</h5>
+                                </div>
+                                <div class="col-sm-9 text-secondary"  ng-class="{ 'has-success':(editForm.name.$valid && !editForm.name.$pristin), 'has-error': (!editForm.name.$valid && !editForm.name.$pristin)  }">
+                                    <input ng-disabled="edit.disabled" class="form-control" type="text" name="name" placeholder="Enter the name" ng-model="newName" ng-pattern="/^(([a-zA-Z]{3,20})+[ ]+([a-zA-Z]{3,20})+)+$/" ng-minlength="3" ng-maxlength="20" required>
+                                    <p class="help-block" ng-show="(!editForm.name.$pristine && editForm.name.$error.required) || (editForm.$submitted && editForm.name.$error.required)">This field is required</p>
+                                    <ul class="help-block" ng-show="(!editForm.name.$pristine && editForm.name.$error.pattern) || (!editForm.name.$pristine && editForm.name.$error.minlength) || (!editForm.name.$pristine && editForm.name.$error.maxlength)">
+                                        <li>Must have a space in between first and last name</li>
+                                        <li>Must not contain any special characters</li>
+                                        <li>Must not contain any numbers</li>
+                                        <li>Must be at least 3 characters but no more than 20</li>                
+                                    </ul>
+                                </div>
+                              </div>
+                              <hr>
+                              <div class="row">
+                                <div class="col-sm-3">
+                                  <h5 class="mb-0">Email</h5>
+                                </div>
+                                <div class="col-sm-9 text-secondary" ng-class="{ 'has-success':(editForm.email.$valid && !editForm.email.$pristin && !register.emailInvalid), 'has-error': (!editForm.email.$valid && !editForm.email.$pristin) || (!editForm.email.$valid && editForm.$submitted) || register.emailInvalid }">
+                                    <input ng-disabled="edit.disabled" class="form-control" type="text" name="email" placeholder="Enter the email" ng-model="newEmail" ng-pattern="/^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/" ng-minlength="3" ng-maxlength="40" ng-blur="edit.checkEmail(updateData)" required>
+                                    <p class="help-block" ng-show="(!editForm.email.$pristine && editForm.email.$error.required) || (editForm.$submitted && editForm.email.$error.required)">This field is required</p>
+                                    <span ng-show="edit.checkingEmail" class="glyphicon glyphicon-repeat"></span>
+                                    <p class="help-block" ng-show="edit.emailMsg && !editForm.email.$error.required && editForm.email.$valid">{{ edit.emailMsg }}</p>
+                                    <ul class="help-block" ng-show="(!editForm.email.$pristine && editForm.email.$error.pattern) || (!editForm.email.$pristine && editForm.email.$error.minlength) || (!editForm.email.$pristine && editForm.email.$error.maxlength)">
+                                        <li>Must contain "@"</li>
+                                        <li>Must not contain any special characters</li>
+                                        <li>Must be at least 3 characters but no more than 40</li>
+                                    </ul>
+                                </div>
+                              </div>
+                              <hr>
+                              <hr>
+                              <div class="row">
+                                <div class="col-sm-3">
+                                  <h5 class="mb-0">Mobile</h5>
+                                </div>
+                                <div class="col-sm-9 text-secondary" ng-class="{ 'has-success':(editForm.mobile.$valid && !editForm.mobile.$pristin  && !register.mobileInvalid), 'has-error': (!editForm.mobile.$valid && !editForm.mobile.$pristin) || (!editForm.mobile.$valid && editForm.$submitted) || register.mobileInvalid }">
+                                    <input class="form-control" ng-disabled="edit.disabled" type="text" name="mobile" placeholder="Enter the mobile" ng-model="newMobile" ng-pattern="/^((\+)?(\d{2}[-]))?(\d{10}){1}?$/" ng-minlength="9" ng-maxlength="15" ng-blur="edit.checkMobile(updateData)" required> 
+                                    <p class="help-block" ng-show="(!editForm.mobile.$pristine && editForm.mobile.$error.required) || (editForm.$submitted && editForm.mobile.$error.required)">This field is required</p>
+                                    <span ng-show="edit.checkingMobile" class="glyphicon glyphicon-repeat"></span>
+                                    <p class="help-block" ng-show="edit.mobileMsg && !editForm.mobile.$error.required && editForm.mobile.$valid">{{ edit.mobileMsg }}</p>
+                                    <ul class="help-block" ng-show="(!editForm.mobile.$pristine && editForm.mobile.$error.pattern) || (!editForm.mobile.$pristine && editForm.mobile.$error.minlength) || (!editForm.mobile.$pristine && editForm.mobile.$error.maxlength)">
+                                        <li>Must not contain any special characters or spaces</li>
+                                        <li>Must be at least 10 digits</li>
+                                    </ul>
+                                </div>
+                              </div>
+                              <hr>
+                              <hr>
+                              <div class="row">
+                                <div class="col-sm-3">
+                                  <h5 class="mb-0">Id-Card</h5>
+                                </div>
+                                <div class="col-sm-9 text-secondary" ng-class="{ 'has-success':(editForm.idcard.$valid && !editForm.idcard.$pristin && !register.idcardInvalid), 'has-error': (!editForm.idcard.$valid && !editForm.idcard.$pristin) || (!editForm.idcard.$valid && editForm.$submitted) || register.idcardInvalid }">
+                                    <input class="form-control" ng-disabled="edit.disabled" type="text" name="idcard" placeholder="Enter the idcard (eg. 1234 1234 1234)" ng-model="newIdcard" ng-pattern="/^\d{4}\s\d{4}\s\d{4}$/" ng-minlength="12" ng-maxlength="16" ng-blur="edit.checkIdcard(updateData)" required>
+                                    <p class="help-block" ng-show="(!editForm.idcard.$pristine && editForm.idcard.$error.required) || (editForm.$submitted && editForm.idcard.$error.required)">This field is required</p>
+                                    <span ng-show="edit.checkingidcard" class="glyphicon glyphicon-repeat"></span>
+                                    <p class="help-block" ng-show="edit.idcardMsg && !editForm.idcard.$error.required && editForm.idcard.$valid">{{ edit.idcardMsg }}</p>
+                                    <ul class="help-block" ng-show="(!editForm.idcard.$pristine && editForm.idcard.$error.pattern) || (!editForm.idcard.$pristine && editForm.idcard.$error.minlength) || (!editForm.idcard.$pristine && editForm.idcard.$error.maxlength)">
+                                        <li>Must not contain any special characters or spaces</li>
+                                        <li>Must be at least 12 digits</li>
+                                        <li>Must be follow eg. 1234 1234 1234</li>
+                                    </ul>
+                              </div>
+                              <hr>
+                              <hr>
+                              <div class="row">
+                                <div class="col-sm-3">
+                                  <h5 class="mb-0">Address</h5>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <textarea ng-disabled="edit.disabled" class="form-control" type="text" name="address" placeholder="Enter the address" rows="5" cols="20" ng-model="newAddress"></textarea>
+                                </div>
+                              </div>
+                            </div>
+                           </div>
+                          </div>
+                        </div>
+                    </div>  
+                    <button class="btn btn-primary" type="submit">Update</button>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
+                    <a href="/profile"><button class="btn btn-success">Cancel</button></a>
+                    <br><br><br>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="jumbotron text-center" ng-show="edit.loading">
+        <span class="glyphicon glyphicon-repeat spinner"></span>
+        <p>Loading....</p>
+    </div>
+    
+    <div class="row show-hide-message" ng-show="edit.successmsg">
+        <div class="alert alert-success">{{edit.successmsg}}</div>
+    </div>
+    <div class="row show-hide-message" ng-show="edit.errormsg">
+        <div class="alert alert-danger">{{edit.errormsg}}</div>
+    </div><br><br><br>
+</div>

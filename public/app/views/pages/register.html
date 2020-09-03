@@ -1,0 +1,298 @@
+<div style="margin-left: 5%; margin-right: 20%;">
+    <div class="row text-center">
+        <div class="container">
+            <h2 class="section-heading">User Registration</h2>
+            <h3 class="section-subheading text-muted">Please enter your registration information.</h3>
+        </div>
+    </div>
+    <br>
+    <ul class="nav nav-tabs">
+        <li role="presentation" ng-click="register.ownerPhase();" ng-class="ownerTab"><a href="#">House Owner</a></li>
+        <li role="presentation" ng-click="register.tenentPhase();" ng-class="tenentTab"><a href="#">Tenant</a></li>
+        <li role="presentation" ng-click="register.brokerPhase();" ng-class="brokerTab"><a href="#">Broker</a></li>
+    </ul>
+    <br>
+    <div>
+        <!-- Phase One: Name Tab -->
+        <form name="ownerForm" ng-show="register.phase1" ng-submit="register.owner(ownerRegData, ownerForm.$valid)" enctype="multipart/form-data" novalidate>
+            <div class="form-group">
+                <input class="form-control" type="hidden" name="typeh" ng-init="register.ownerRegData.typeh = 'OwnerH'" ng-value="register.ownerRegData.typeh">
+            </div>
+            <div class="form-group" ng-class="{ 'has-success':(ownerForm.name.$valid && !ownerForm.name.$pristin), 'has-error': (!ownerForm.name.$valid && !ownerForm.name.$pristin)  }">
+                <label>OwnerName:</label>
+                <input ng-disabled="register.disabled" class="form-control" type="text" name="name" placeholder="Enter the name" ng-model="register.ownerRegData.name" ng-pattern="/^(([a-zA-Z]{3,20})+[ ]+([a-zA-Z]{3,20})+)+$/" ng-minlength="3" ng-maxlength="20" required>
+                <p class="help-block" ng-show="(!ownerForm.name.$pristine && ownerForm.name.$error.required) || (ownerForm.$submitted && ownerForm.name.$error.required)">This field is required</p>
+                <ul class="help-block" ng-show="(!ownerForm.name.$pristine && ownerForm.name.$error.pattern) || (!ownerForm.name.$pristine && ownerForm.name.$error.minlength) || (!ownerForm.name.$pristine && ownerForm.name.$error.maxlength)">
+                    <li>Must have a space in between first and last name</li>
+                    <li>Must not contain any special characters</li>
+                    <li>Must not contain any numbers</li>
+                    <li>Must be at least 3 characters but no more than 20</li>                
+                </ul>
+            </div>
+            <div class="form-group" ng-class="{ 'has-success':(ownerForm.email.$valid && !ownerForm.email.$pristin && !register.emailInvalid), 'has-error': (!ownerForm.email.$valid && !ownerForm.email.$pristin) || (!ownerForm.email.$valid && ownerForm.$submitted) || register.emailInvalid }">
+                <label>Email:</label>
+                <input ng-disabled="register.disabled" class="form-control" type="text" name="email" placeholder="Enter the email" ng-model="register.ownerRegData.email" ng-pattern="/^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/" ng-minlength="3" ng-maxlength="40" ng-blur="register.checkEmail(ownerRegData)" required>
+                <p class="help-block" ng-show="(!ownerForm.email.$pristine && ownerForm.email.$error.required) || (ownerForm.$submitted && ownerForm.email.$error.required)">This field is required</p>
+                <span ng-show="register.checkingEmail" class="glyphicon glyphicon-repeat"></span>
+                <p class="help-block" ng-show="register.emailMsg && !ownerForm.email.$error.required && ownerForm.email.$valid">{{ register.emailMsg }}</p>
+                <ul class="help-block" ng-show="(!ownerForm.email.$pristine && ownerForm.email.$error.pattern) || (!ownerForm.email.$pristine && ownerForm.email.$error.minlength) || (!ownerForm.email.$pristine && ownerForm.email.$error.maxlength)">
+                    <li>Must contain "@"</li>
+                    <li>Must not contain any special characters</li>
+                    <li>Must be at least 3 characters but no more than 40</li>
+                </ul>
+            </div>
+            <div class="form-group" ng-class="{ 'has-success':(ownerForm.mobile.$valid && !ownerForm.mobile.$pristin  && !register.mobileInvalid), 'has-error': (!ownerForm.mobile.$valid && !ownerForm.mobile.$pristin) || (!ownerForm.mobile.$valid && ownerForm.$submitted) || register.mobileInvalid }">
+                <label>Mobile:</label>
+                <input class="form-control" ng-disabled="register.disabled" type="text" name="mobile" placeholder="Enter the mobile" ng-model="register.ownerRegData.mobile" ng-pattern="/^((\+)?(\d{2}[-]))?(\d{10}){1}?$/" ng-minlength="9" ng-maxlength="15" ng-blur="register.checkMobile(ownerRegData)" required> 
+                <p class="help-block" ng-show="(!ownerForm.mobile.$pristine && ownerForm.mobile.$error.required) || (ownerForm.$submitted && ownerForm.mobile.$error.required)">This field is required</p>
+                <span ng-show="register.checkingMobile" class="glyphicon glyphicon-repeat"></span>
+                <p class="help-block" ng-show="register.mobileMsg && !ownerForm.mobile.$error.required && ownerForm.mobile.$valid">{{ register.mobileMsg }}</p>
+                <ul class="help-block" ng-show="(!ownerForm.mobile.$pristine && ownerForm.mobile.$error.pattern) || (!ownerForm.mobile.$pristine && ownerForm.mobile.$error.minlength) || (!ownerForm.mobile.$pristine && ownerForm.mobile.$error.maxlength)">
+                    <li>Must not contain any special characters or spaces</li>
+                    <li>Must be at least 10 digits</li>
+                </ul>
+            </div>
+            <div class="form-group" ng-class="{ 'has-success':(ownerForm.idcard.$valid && !ownerForm.idcard.$pristin && !register.idcardInvalid), 'has-error': (!ownerForm.idcard.$valid && !ownerForm.idcard.$pristin) || (!ownerForm.idcard.$valid && ownerForm.$submitted) || register.idcardInvalid }">
+                <label>Id-Card:</label>
+                <input class="form-control" ng-disabled="register.disabled" type="text" name="idcard" placeholder="Enter the idcard (eg. 1234 1234 1234)" ng-model="register.ownerRegData.idcard" ng-pattern="/^\d{4}\s\d{4}\s\d{4}$/" ng-minlength="12" ng-maxlength="16" ng-blur="register.checkIdcard(ownerRegData)" required>
+                <p class="help-block" ng-show="(!ownerForm.idcard.$pristine && ownerForm.idcard.$error.required) || (ownerForm.$submitted && ownerForm.idcard.$error.required)">This field is required</p>
+                <span ng-show="register.checkingidcard" class="glyphicon glyphicon-repeat"></span>
+                <p class="help-block" ng-show="register.idcardMsg && !ownerForm.idcard.$error.required && ownerForm.idcard.$valid">{{ register.idcardMsg }}</p>
+                <ul class="help-block" ng-show="(!ownerForm.idcard.$pristine && ownerForm.idcard.$error.pattern) || (!ownerForm.idcard.$pristine && ownerForm.idcard.$error.minlength) || (!ownerForm.idcard.$pristine && ownerForm.idcard.$error.maxlength)">
+                    <li>Must not contain any special characters or spaces</li>
+                    <li>Must be at least 12 digits</li>
+                    <li>Must be follow eg. 1234 1234 1234</li>
+                </ul>
+            </div>
+            <div class="form-group">
+                <label>House Type:</label>
+                <select class="custom-select form-control" ng-model="register.ownerRegData.housetype" ng-options="x for x in names">
+                </select>
+            </div>
+            <div class="form-group">
+                <label>House Address:</label>
+                <textarea class="form-control" ng-disabled="register.disabled" name="houseaddress" placeholder="Enter the house address" rows="5" cols="20" ng-model="register.ownerRegData.houseaddress"></textarea>
+            </div>
+            <div class="form-group"  ng-class="{ 'has-success':(ownerForm.rentprice.$valid && !ownerForm.rentprice.$pristin), 'has-error': (!ownerForm.rentprice.$valid && !ownerForm.rentprice.$pristin) || (!ownerForm.rentprice.$valid && ownerForm.$submitted) }">
+                <label>House Rent Price:</label>
+                <input class="form-control" ng-disabled="register.disabled" type="text" name="rentprice" placeholder="Enter the rentprice(INR)" ng-model="register.ownerRegData.rentprice" ng-pattern="/^\d+(,\d{3})*(\.\d{1,2})?$/" ng-minlength="3" ng-maxlength="9" required>
+                <p class="help-block" ng-show="(!ownerForm.rentprice.$pristine && ownerForm.rentprice.$error.required) || (ownerForm.$submitted && ownerForm.rentprice.$error.required)">This field is required</p>
+                <ul class="help-block" ng-show="(!ownerForm.rentprice.$pristine && ownerForm.rentprice.$error.pattern) || (!ownerForm.rentprice.$pristine && ownerForm.rentprice.$error.minlength) || (!ownerForm.rentprice.$pristine && ownerForm.rentprice.$error.maxlength)">
+                    <li>Must contain at least 3 digits but no more than 9</li>
+                    <li>Should be contain at least one special character point(.)</li>
+                </ul>
+            </div>
+            <div class="form-group">
+                <label>Permanent Address:</label>
+                <textarea ng-disabled="register.disabled" class="form-control" type="text" name="address" placeholder="Enter the address" rows="5" cols="20" ng-model="register.ownerRegData.address"></textarea>
+            </div>     
+            <div class="form-group mb-3" ng-class="{ 'has-success':(ownerForm.firstPassword.$valid && !ownerForm.firstPassword.$pristin), 'has-error': (!ownerForm.firstPassword.$valid && !ownerForm.firstPassword.$pristin) || (!ownerForm.firstPassword.$valid && ownerForm.$submitted) }">
+                <label>Password:</label>
+                <input ng-disabled="register.disabled" class="form-control" type="{{register.inputType}}" name="firstPassword" placeholder="Enter the password" ng-model="firstPassword" ng-pattern="/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,35}$/" ng-minlength="8" ng-maxlength="35" required>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-addon"><i class="{{register.showPass}}" ng-click="register.showPassword()" aria-hidden="true" style="font-size: 20px;"></i></span>
+                    </div>
+               </div>
+                <p class="help-block" ng-show="(!ownerForm.firstPassword.$pristine && ownerForm.firstPassword.$error.required) || (ownerForm.$submitted && ownerForm.firstPassword.$error.required)">This field is required</p>
+                <ul class="help-block" ng-show="(!ownerForm.firstPassword.$pristine && ownerForm.firstPassword.$error.pattern) || (!ownerForm.firstPassword.$pristine && ownerForm.firstPassword.$error.minlength) || (!ownerForm.firstPassword.$pristine && ownerForm.firstPassword.$error.maxlength)">
+                    <li>Must contain at least one upper case letter</li>
+                    <li>Must contain at least one lower case letter</li>
+                    <li>Must contain at least one number</li>
+                    <li>Must contain at least one special character</li>
+                    <li>Must contain at least 8 characters but no more than 35</li>
+                </ul> 
+            </div>
+            <div ng-class="{ 'has-success':confirmed && !ownerForm.confirmPassword.$error.required, 'has-error':(!confirmed && !ownerForm.confirmPassword.$error.required) || (ownerForm.confirmPassword.$error.required && !ownerForm.confirmPassword.$pristine) || (ownerForm.$submitted && ownerForm.confirmPassword.$error.required) }">
+                <label>Confirm Password:</label>
+                <input ng-disabled="register.disabled" ng-disabled="register.disabled" class="form-control" type="password" name="confirmPassword" placeholder="Confirm Password *" match="{{[firstPassword]}}" ng-change="register.ownerRegData.password = confirm" ng-model="confirm" required>
+                <p class="help-block" ng-show="(!ownerForm.confirmPassword.$pristine && ownerForm.confirmPassword.$error.required) || (ownerForm.$submitted && ownerForm.confirmPassword.$error.required)">This field is required</p>
+                <p class="help-block" ng-show="!confirmed && !ownerForm.confirmPassword.$pristine && ownerForm.firstPassword.$valid">Passwords do not match</p>
+            </div>
+            <br>
+            <button class="btn btn-primary" type="submit">Submit</button>&nbsp;&nbsp;
+        </form>
+
+        <!-- Phase Two: Name Tab -->
+        <form name="tenantForm" ng-show="register.phase2" ng-submit="register.tenant(tenantRegData, tenantForm.$valid)" novalidate>
+            <div class="form-group">
+                <input class="form-control" type="hidden" name="typeh" ng-init="register.tenantRegData.typeh = 'tenantH'" ng-value="register.tenantRegData.typeh">
+            </div>
+            <div class="form-group" ng-class="{ 'has-success':(tenantForm.name.$valid && !tenantForm.name.$pristin), 'has-error': (!tenantForm.name.$valid && !tenantForm.name.$pristin)  }">
+                <label>TenantName:</label>
+                <input ng-disabled="register.disabled" class="form-control" type="text" name="name" placeholder="Enter the name" ng-model="register.tenantRegData.name" ng-pattern="/^(([a-zA-Z]{3,20})+[ ]+([a-zA-Z]{3,20})+)+$/" ng-minlength="3" ng-maxlength="20" required>
+                <p class="help-block" ng-show="(!tenantForm.name.$pristine && tenantForm.name.$error.required) || (tenantForm.$submitted && tenantForm.name.$error.required)">This field is required</p>
+                <ul class="help-block" ng-show="(!tenantForm.name.$pristine && tenantForm.name.$error.pattern) || (!tenantForm.name.$pristine && tenantForm.name.$error.minlength) || (!tenantForm.name.$pristine && tenantForm.name.$error.maxlength)">
+                    <li>Must have a space in between first and last name</li>
+                    <li>Must not contain any special characters</li>
+                    <li>Must not contain any numbers</li>
+                    <li>Must be at least 3 characters but no more than 20</li>                
+                </ul>
+            </div>
+            <div class="form-group"  ng-class="{ 'has-success':(tenantForm.email.$valid && !tenantForm.email.$pristin && !register.email2Invalid), 'has-error': (!tenantForm.email.$valid && !tenantForm.email.$pristin) || (!tenantForm.email.$valid && tenantForm.$submitted) || register.email2Invalid }">
+                <label>Email:</label>
+                <input ng-disabled="register.disabled" class="form-control" type="text" name="email" placeholder="Enter the email" ng-model="register.tenantRegData.email" ng-pattern="/^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/" ng-minlength="3" ng-maxlength="40" ng-blur="register.checkEmailt(tenantRegData)" required>
+                <p class="help-block" ng-show="(!tenantForm.email.$pristine && tenantForm.email.$error.required) || (tenantForm.$submitted && tenantForm.email.$error.required)">This field is required</p>
+                <span ng-show="register.checkingEmailt" class="glyphicon glyphicon-repeat"></span>
+                <p class="help-block" ng-show="register.emailMsgt && !tenantForm.email.$error.required && tenantForm.email.$valid">{{ register.emailMsgt }}</p>
+                <ul class="help-block" ng-show="(!tenantForm.email.$pristine && tenantForm.email.$error.pattern) || (!tenantForm.email.$pristine && tenantForm.email.$error.minlength) || (!tenantForm.email.$pristine && tenantForm.email.$error.maxlength)">
+                    <li>Must contain "@"</li>
+                    <li>Must not contain any special characters</li>
+                    <li>Must be at least 3 characters but no more than 40</li>
+                </ul>
+            </div>
+            <div class="form-group"  ng-class="{ 'has-success':(tenantForm.mobile.$valid && !tenantForm.mobile.$pristin  && !register.mobile2Invalid), 'has-error': (!tenantForm.mobile.$valid && !tenantForm.mobile.$pristin) || (!tenantForm.mobile.$valid && tenantForm.$submitted) || register.mobile2Invalid }">
+                <label>Mobile:</label>
+                <input ng-disabled="register.disabled" class="form-control" type="text" name="mobile" placeholder="Enter the mobile" ng-model="register.tenantRegData.mobile" ng-pattern="/^((\+)?(\d{2}[-]))?(\d{10}){1}?$/" ng-minlength="9" ng-maxlength="15" ng-blur="register.checkMobilet(tenantRegData)" required> 
+                <p class="help-block" ng-show="(!tenantForm.mobile.$pristine && tenantForm.mobile.$error.required) || (tenantForm.$submitted && tenantForm.mobile.$error.required)">This field is required</p>
+                <span ng-show="register.checkingMobilet" class="glyphicon glyphicon-repeat"></span>
+                <p class="help-block" ng-show="register.mobileMsgt && !tenantForm.mobile.$error.required && tenantForm.mobile.$valid">{{ register.mobileMsgt }}</p>
+                <ul class="help-block" ng-show="(!tenantForm.mobile.$pristine && tenantForm.mobile.$error.pattern) || (!tenantForm.mobile.$pristine && tenantForm.mobile.$error.minlength) || (!tenantForm.mobile.$pristine && tenantForm.mobile.$error.maxlength)">
+                    <li>Must not contain any special characters or spaces</li>
+                    <li>Must be at least 10 digits</li>
+                </ul>
+            </div>        
+            <div class="form-group" ng-class="{ 'has-success':(tenantForm.idcard.$valid && !tenantForm.idcard.$pristin && !register.idcard2Invalid), 'has-error': (!tenantForm.idcard.$valid && !tenantForm.idcard.$pristin) || (!tenantForm.idcard.$valid && tenantForm.$submitted) || register.idcard2Invalid }">
+                <label>Id-Card:</label>
+                <input ng-disabled="register.disabled" class="form-control" type="text" name="idcard" placeholder="Enter the idcard (eg. 1234 1234 1234)" ng-model="register.tenantRegData.idcard" ng-pattern="/^\d{4}\s\d{4}\s\d{4}$/" ng-minlength="12" ng-maxlength="16" ng-blur="register.checkIdcardt(tenantRegData)" required>
+                <p class="help-block" ng-show="(!tenantForm.idcard.$pristine && tenantForm.idcard.$error.required) || (tenantForm.$submitted && tenantForm.idcard.$error.required)">This field is required</p>
+                <span ng-show="register.checkingidcardt" class="glyphicon glyphicon-repeat"></span>
+                <p class="help-block" ng-show="register.idcardMsgt && !tenantForm.idcard.$error.required && tenantForm.idcard.$valid">{{ register.idcardMsgt }}</p>
+                <ul class="help-block" ng-show="(!tenantForm.idcard.$pristine && tenantForm.idcard.$error.pattern) || (!tenantForm.idcard.$pristine && tenantForm.idcard.$error.minlength) || (!tenantForm.idcard.$pristine && tenantForm.idcard.$error.maxlength)">
+                    <li>Must not contain any special characters or spaces</li>
+                    <li>Must be at least 12 digits</li>
+                    <li>Must be follow eg. 1234 1234 1234</li>
+                </ul>
+            </div>
+            <div class="form-group">
+                <label>Nationality:</label>
+                <input ng-disabled="register.disabled" class="form-control" type="text" name="nationality" placeholder="Enter the Nationality" ng-model="register.tenantRegData.nationality">
+            </div>
+            <div class="form-group">
+                <label>Address:</label>
+                <textarea ng-disabled="register.disabled" class="form-control" name="address" placeholder="Enter the address" rows="5" cols="20" ng-model="register.tenantRegData.address"></textarea>
+            </div>
+            <div class="form-group" ng-class="{ 'has-success':(tenantForm.firstPassword.$valid && !tenantForm.firstPassword.$pristin), 'has-error': (!tenantForm.firstPassword.$valid && !tenantForm.firstPassword.$pristin) || (!tenantForm.firstPassword.$valid && tenantForm.$submitted) }">
+                <label>Password:</label>
+                <input ng-disabled="register.disabled" class="form-control" type="{{register.inputType}}" name="firstPassword" placeholder="Enter the password" ng-model="firstPassword" ng-pattern="/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,35}$/" ng-minlength="8" ng-maxlength="35" required>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-addon"><i class="{{register.showPass}}" ng-click="register.showPassword()" aria-hidden="true" style="font-size: 20px;"></i></span>
+                    </div>
+                </div>
+                <p class="help-block" ng-show="(!tenantForm.firstPassword.$pristine && tenantForm.firstPassword.$error.required) || (tenantForm.$submitted && tenantForm.firstPassword.$error.required)">This field is required</p>
+                <ul class="help-block" ng-show="(!tenantForm.firstPassword.$pristine && tenantForm.firstPassword.$error.pattern) || (!tenantForm.firstPassword.$pristine && tenantForm.firstPassword.$error.minlength) || (!tenantForm.firstPassword.$pristine && tenantForm.firstPassword.$error.maxlength)">
+                    <li>Must contain at least one upper case letter</li>
+                    <li>Must contain at least one lower case letter</li>
+                    <li>Must contain at least one number</li>
+                    <li>Must contain at least one special character</li>
+                    <li>Must contain at least 8 characters but no more than 35</li>
+                </ul>
+            </div>
+            <div ng-class="{ 'has-success':confirmed && !tenantForm.confirmPassword.$error.required, 'has-error':(!confirmed && !tenantForm.confirmPassword.$error.required) || (tenantForm.confirmPassword.$error.required && !tenantForm.confirmPassword.$pristine) || (tenantForm.$submitted && tenantForm.confirmPassword.$error.required) }">
+                <label>Confirm Password:</label>
+                <input ng-disabled="register.disabled" ng-disabled="register.disabled" class="form-control" type="password" name="confirmPassword" placeholder="Confirm Password *" match="{{[firstPassword]}}" ng-change="register.tenantRegData.password = confirm" ng-model="confirm" required>
+                <p class="help-block" ng-show="(!tenantForm.confirmPassword.$pristine && tenantForm.confirmPassword.$error.required) || (tenantForm.$submitted && tenantForm.confirmPassword.$error.required)">This field is required</p>
+                <p class="help-block" ng-show="!confirmed && !tenantForm.confirmPassword.$pristine && tenantForm.firstPassword.$valid">Passwords do not match</p>
+            </div>
+            <br>
+            <button class="btn btn-primary" type="submit">Submit</button>&nbsp;&nbsp;
+        </form>
+
+        <!-- Phase Three: Name Tab -->
+        <form name="brokerForm" ng-show="register.phase3" ng-submit="register.broker(brokerRegData, brokerForm.$valid)" novalidate>
+            <div class="form-group">
+                <input class="form-control" type="hidden" name="typeh" ng-init="register.brokerRegData.typeh = 'brokerH'" ng-value="register.brokerRegData.typeh">
+            </div>
+            <div class="form-group" ng-class="{ 'has-success':(brokerForm.name.$valid && !brokerForm.name.$pristin), 'has-error': (!brokerForm.name.$valid && !brokerForm.name.$pristin)  }">
+                <label>BrokerName:</label>
+                <input ng-disabled="register.disabled" class="form-control" type="text" name="name" placeholder="Enter the name" ng-model="register.brokerRegData.name"  ng-pattern="/^(([a-zA-Z]{3,20})+[ ]+([a-zA-Z]{3,20})+)+$/" ng-minlength="3" ng-maxlength="20" required>
+                <p class="help-block" ng-show="(!brokerForm.name.$pristine && brokerForm.name.$error.required) || (brokerForm.$submitted && brokerForm.name.$error.required)">This field is required</p>
+                <ul class="help-block" ng-show="(!brokerForm.name.$pristine && brokerForm.name.$error.pattern) || (!brokerForm.name.$pristine && brokerForm.name.$error.minlength) || (!brokerForm.name.$pristine && brokerForm.name.$error.maxlength)">
+                    <li>Must have a space in between first and last name</li>
+                    <li>Must not contain any special characters</li>
+                    <li>Must not contain any numbers</li>
+                    <li>Must be at least 3 characters but no more than 20</li>                
+                </ul>
+            </div>
+            <div class="form-group" ng-class="{ 'has-success':(brokerForm.email.$valid && !brokerForm.email.$pristin && !register.email3Invalid), 'has-error': (!brokerForm.email.$valid && !brokerForm.email.$pristin) || (!brokerForm.email.$valid && brokerForm.$submitted) || register.email3Invalid }">
+                <label>Email:</label>
+                <input ng-disabled="register.disabled" class="form-control" type="text" name="email" placeholder="Enter the email" ng-model="register.brokerRegData.email" ng-pattern="/^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/" ng-minlength="3" ng-maxlength="40" ng-blur="register.checkEmailb(brokerRegData)" required>
+                <p class="help-block" ng-show="(!brokerForm.email.$pristine && brokerForm.email.$error.required) || (brokerForm.$submitted && brokerForm.email.$error.required)">This field is required</p>
+                <span ng-show="register.checkingEmailb" class="glyphicon glyphicon-repeat"></span>
+                <p class="help-block" ng-show="register.emailMsgb && !brokerForm.email.$error.required && brokerForm.email.$valid">{{ register.emailMsgb }}</p>
+                <ul class="help-block" ng-show="(!brokerForm.email.$pristine && brokerForm.email.$error.pattern) || (!brokerForm.email.$pristine && brokerForm.email.$error.minlength) || (!brokerForm.email.$pristine && brokerForm.email.$error.maxlength)">
+                    <li>Must contain "@"</li>
+                    <li>Must not contain any special characters</li>
+                    <li>Must be at least 3 characters but no more than 40</li>
+                </ul>
+            </div>
+            <div class="form-group" ng-class="{ 'has-success':(brokerForm.mobile.$valid && !brokerForm.mobile.$pristin  && !register.mobile3Invalid), 'has-error': (!brokerForm.mobile.$valid && !brokerForm.mobile.$pristin) || (!brokerForm.mobile.$valid && brokerForm.$submitted) || register.mobile3Invalid }">
+                <label>Mobile:</label>
+                <input ng-disabled="register.disabled" class="form-control" type="text" name="mobile" placeholder="Enter the mobile" ng-model="register.brokerRegData.mobile" ng-pattern="/^((\+)?(\d{2}[-]))?(\d{10}){1}?$/" ng-minlength="9" ng-maxlength="15" ng-blur="register.checkMobileb(brokerRegData)" required> 
+                <p class="help-block" ng-show="(!brokerForm.mobile.$pristine && brokerForm.mobile.$error.required) || (brokerForm.$submitted && brokerForm.mobile.$error.required)">This field is required</p>
+                <span ng-show="register.checkingMobileb" class="glyphicon glyphicon-repeat"></span>
+                <p class="help-block" ng-show="register.mobileMsgb && !brokerForm.mobile.$error.required && brokerForm.mobile.$valid">{{ register.mobileMsgb }}</p>
+                <ul class="help-block" ng-show="(!brokerForm.mobile.$pristine && brokerForm.mobile.$error.pattern) || (!brokerForm.mobile.$pristine && brokerForm.mobile.$error.minlength) || (!brokerForm.mobile.$pristine && brokerForm.mobile.$error.maxlength)">
+                    <li>Must not contain any special characters or spaces</li>
+                    <li>Must be at least 10 digits</li>
+                </ul>
+            </div>    
+            <div class="form-group" ng-class="{ 'has-success':(brokerForm.idcard.$valid && !brokerForm.idcard.$pristin && !register.idcard3Invalid), 'has-error': (!brokerForm.idcard.$valid && !brokerForm.idcard.$pristin) || (!brokerForm.idcard.$valid && brokerForm.$submitted) || register.idcard3Invalid }">
+                <label>Id-Card:</label>
+                <input ng-disabled="register.disabled" class="form-control" type="text" name="idcard" placeholder="Enter the idcard (eg. 1234 1234 1234)" ng-model="register.brokerRegData.idcard" ng-pattern="/^\d{4}\s\d{4}\s\d{4}$/" ng-minlength="12" ng-maxlength="16" ng-blur="register.checkIdcardb(brokerRegData)" required>
+                <p class="help-block" ng-show="(!brokerForm.idcard.$pristine && brokerForm.idcard.$error.required) || (brokerForm.$submitted && brokerForm.idcard.$error.required)">This field is required</p>
+                <span ng-show="register.checkingidcardb" class="glyphicon glyphicon-repeat"></span>
+                <p class="help-block" ng-show="register.idcardMsgb && !brokerForm.idcard.$error.required && brokerForm.idcard.$valid">{{ register.idcardMsgb }}</p>
+                <ul class="help-block" ng-show="(!brokerForm.idcard.$pristine && brokerForm.idcard.$error.pattern) || (!brokerForm.idcard.$pristine && brokerForm.idcard.$error.minlength) || (!brokerForm.idcard.$pristine && brokerForm.idcard.$error.maxlength)">
+                    <li>Must not contain any special characters or spaces</li>
+                    <li>Must be at least 12 digits</li>
+                    <li>Must be follow eg. 1234 1234 1234</li>
+                </ul>
+            </div>
+            <div class="form-group">
+                <label>Address:</label>
+                <textarea ng-disabled="register.disabled" class="form-control" name="address" placeholder="Enter the address" rows="5" cols="20" ng-model="register.brokerRegData.address"></textarea>
+            </div>    
+            <div class="form-group" ng-class="{ 'has-success':(brokerForm.firstPassword.$valid && !brokerForm.firstPassword.$pristin), 'has-error': (!brokerForm.firstPassword.$valid && !brokerForm.firstPassword.$pristin) || (!brokerForm.firstPassword.$valid && brokerForm.$submitted) }">
+                <label>Password:</label>
+                <input ng-disabled="register.disabled" class="form-control" type="{{register.inputType}}" name="firstPassword" placeholder="Enter the password" ng-model="firstPassword" ng-pattern="/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,35}$/" ng-minlength="8" ng-maxlength="35" required>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-addon"><i class="{{register.showPass}}" ng-click="register.showPassword()" aria-hidden="true" style="font-size: 20px;"></i></span>
+                    </div>
+                </div>
+                <p class="help-block" ng-show="(!brokerForm.firstPassword.$pristine && brokerForm.firstPassword.$error.required) || (brokerForm.$submitted && brokerForm.firstPassword.$error.required)">This field is required</p>
+                <ul class="help-block" ng-show="(!brokerForm.firstPassword.$pristine && brokerForm.firstPassword.$error.pattern) || (!brokerForm.firstPassword.$pristine && brokerForm.firstPassword.$error.minlength) || (!brokerForm.firstPassword.$pristine && brokerForm.firstPassword.$error.maxlength)">
+                    <li>Must contain at least one upper case letter</li>
+                    <li>Must contain at least one lower case letter</li>
+                    <li>Must contain at least one number</li>
+                    <li>Must contain at least one special character</li>
+                    <li>Must contain at least 8 characters but no more than 35</li>
+                </ul>
+            </div>
+            <div ng-class="{ 'has-success':confirmed && !brokerForm.confirmPassword.$error.required, 'has-error':(!confirmed && !brokerForm.confirmPassword.$error.required) || (brokerForm.confirmPassword.$error.required && !brokerForm.confirmPassword.$pristine) || (brokerForm.$submitted && brokerForm.confirmPassword.$error.required) }">
+                <label>Confirm Password:</label>
+                <input  ng-disabled="register.disabled" class="form-control" type="password" name="confirmPassword" placeholder="Confirm Password *" match="{{[firstPassword]}}" ng-change="register.brokerRegData.password = confirm" ng-model="confirm" required>
+                <p class="help-block" ng-show="(!brokerForm.confirmPassword.$pristine && brokerForm.confirmPassword.$error.required) || (brokerForm.$submitted && brokerForm.confirmPassword.$error.required)">This field is required</p>
+                <p class="help-block" ng-show="!confirmed && !brokerForm.confirmPassword.$pristine && brokerForm.firstPassword.$valid">Passwords do not match</p>
+            </div>
+            <br>
+            <button ng-disabled="register.disabled" class="btn btn-primary" type="submit">Submit</button>&nbsp;&nbsp;
+        </form>
+    </div>
+    
+    <br>
+            
+    <div class="jumbotron text-center" ng-show="register.loading">
+        <span class="glyphicon glyphicon-repeat spinner"></span>
+        <p>Loading....</p>
+    </div>
+    
+    <div class="row show-hide-message" ng-show="register.successmsg">
+        <div class="alert alert-success">{{register.successmsg}}</div>
+    </div>
+    <div class="row show-hide-message" ng-show="register.errormsg">
+        <div class="alert alert-danger">{{register.errormsg}}</div>
+    </div>    
+</div>
