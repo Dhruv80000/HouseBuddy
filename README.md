@@ -1,2 +1,0 @@
-# housebuddy
-housebuddy
