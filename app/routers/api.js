@@ -199,7 +199,7 @@ module.exports = function(router){
                 }else{
 
                     var mailOptions = {
-                        from: 'HouseBuddy, cs9287923@gmail.com',
+                        from: 'cs9287923@gmail.com',
                         to: owner.email,
                         subject: 'Your Activation Link',
                         text: 'Hello ' + owner.name + ', thank you for registering at localhost.com. Please click on the following link to complete your activation: https://housebuddy.herokuapp.com/activate/' + owner.temporarytoken,
