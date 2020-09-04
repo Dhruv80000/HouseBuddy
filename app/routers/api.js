@@ -202,8 +202,8 @@ module.exports = function(router){
                         from: 'HouseBuddy, cs9287923@gmail.com',
                         to: owner.email,
                         subject: 'Your Activation Link',
-                        text: 'Hello ' + owner.name + ', thank you for registering at localhost.com. Please click on the following link to complete your activation: http://localhost:8080/activate/' + owner.temporarytoken,
-                        html: 'Hello<strong> ' + owner.name + '</strong>,<br><br>Thank you for registering at localhost.com. Please click on the link below to complete your activation:<br><br><a href="http://localhost:8080/activate/' + owner.temporarytoken + '">http://localhost:8080/activate/</a>'
+                        text: 'Hello ' + owner.name + ', thank you for registering at localhost.com. Please click on the following link to complete your activation: https://housebuddy.herokuapp.com/activate/' + owner.temporarytoken,
+                        html: 'Hello<strong> ' + owner.name + '</strong>,<br><br>Thank you for registering at localhost.com. Please click on the link below to complete your activation:<br><br><a href="https://housebuddy.herokuapp.com/activate/' + owner.temporarytoken + '">https://housebuddy.herokuapp.com/activate/</a>'
                     };
                     transporter.sendMail(mailOptions, function(err, info){
                         if (err) {
