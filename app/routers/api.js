@@ -357,8 +357,8 @@ module.exports = function(router){
                         from: 'cs9287923@gmail.com',
                         to: user.email,
                         subject: 'Activation Link Request',
-                        text: 'Hello ' + user.name + ', You recently requested a new account activation link. Please click on the following link to complete your activation: http://localhost:8080/activate/' + user.temporarytoken,
-                        html: 'Hello<strong> ' + user.name + '</strong>,<br><br>You recently requested a new account activation link. Please click on the link below to complete your activation:<br><br><a href="http://localhost:8080/activate/' + user.temporarytoken + '">http://localhost:8080/activate/</a>'
+                        text: 'Hello ' + user.name + ', You recently requested a new account activation link. Please click on the following link to complete your activation: https://housebuddy.herokuapp.com/activate/' + user.temporarytoken,
+                        html: 'Hello<strong> ' + user.name + '</strong>,<br><br>You recently requested a new account activation link. Please click on the link below to complete your activation:<br><br><a href="https://housebuddy.herokuapp.com/activate/' + user.temporarytoken + '">https://housebuddy.herokuapp.com/activate/</a>'
                     };
                     transporter.sendMail(mailOptions, function(err, info){
                         if (err) {
