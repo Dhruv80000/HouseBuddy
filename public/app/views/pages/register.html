@@ -9,7 +9,7 @@
     <ul class="nav nav-tabs">
         <li role="presentation" ng-click="register.ownerPhase();" ng-class="ownerTab"><a href="#">House Owner</a></li>
         <li role="presentation" ng-click="register.tenentPhase();" ng-class="tenentTab"><a href="#">Tenant</a></li>
-        <li role="presentation" ng-click="register.brokerPhase();" ng-class="brokerTab"><a href="#">Broker</a></li>
+  <!--      <li role="presentation" ng-click="register.brokerPhase();" ng-class="brokerTab"><a href="#">Broker</a></li>-->
     </ul>
     <br>
     <div>
@@ -200,7 +200,7 @@
         </form>
 
         <!-- Phase Three: Name Tab -->
-        <form name="brokerForm" ng-show="register.phase3" ng-submit="register.broker(brokerRegData, brokerForm.$valid)" novalidate>
+   <!--     <form name="brokerForm" ng-show="register.phase3" ng-submit="register.broker(brokerRegData, brokerForm.$valid)" novalidate>
             <div class="form-group">
                 <input class="form-control" type="hidden" name="typeh" ng-init="register.brokerRegData.typeh = 'brokerH'" ng-value="register.brokerRegData.typeh">
             </div>
@@ -279,7 +279,7 @@
             </div>
             <br>
             <button ng-disabled="register.disabled" class="btn btn-primary" type="submit">Submit</button>&nbsp;&nbsp;
-        </form>
+        </form>-->
     </div>
     
     <br>

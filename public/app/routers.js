@@ -58,7 +58,7 @@ app.config(function($routeProvider, $locationProvider){
         controller: 'passwordCtrl',
         controllerAs: 'password',
         authenticated: false
-    })
+    }) 
 
     .when('/reset/:token', {
         templateUrl: 'app/views/pages/reset/newpassword.html',

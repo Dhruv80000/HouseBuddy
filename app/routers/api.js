@@ -163,10 +163,11 @@ module.exports = function(router){
         owner.housetype = req.body.housetype;
         owner.rentprice = req.body.rentprice;
         owner.temporarytoken = jwt.sign({ name: owner.name, email: owner.email, address: owner.address, idcard: owner.idcard, mobile: owner.mobile, image: owner.image }, secret, { expiresIn: '24h' });
-        
+     
         if(req.body.mobile == null || req.body.mobile == "" || req.body.password == null || req.body.password == "" || req.body.email == null || req.body.email == "" || req.body.name == null || req.body.name == "" || req.body.idcard == null || req.body.idcard == ""){
             res.json({ success: false, message: 'Ensure name, mobile, password, Id-card and email were provided'});
         }else{
+            owner.active = req.body.active = true;
             owner.save(function(err){
                 if(err){
                     if (err.errors != null) {
@@ -198,7 +199,7 @@ module.exports = function(router){
                     }
                 }else{
 
-                    var mailOptions = {
+                    /*var mailOptions = {
                         from: 'cs9287923@gmail.com',
                         to: owner.email,
                         subject: 'Your Activation Link',
@@ -211,8 +212,9 @@ module.exports = function(router){
                         } else {
                           console.log('Email sent: ' + info.response);
                         }
-                    });
-                    res.json({ success: true, message: 'Account registered! Please check your e-mail for activation link.'});
+                    });*/
+                    //res.json({ success: true, message: 'Account registered! Please check your e-mail for activation link.'});
+                    res.json({ success: true, message: 'Account registered !' });
                 }
             });
         }
@@ -297,7 +299,7 @@ module.exports = function(router){
                        if (err) {
                            console.log(err); 
                        } else {                                
-                            var mailOptions = {
+                           /* var mailOptions = {
                                 from: 'cs9287923@gmail.com',
                                 to: user.email,
                                 subject: 'Account Activated',
@@ -311,7 +313,7 @@ module.exports = function(router){
                                 } else {
                                   console.log('Email sent: ' + info.response);
                                 }
-                            });
+                            });*/
                            res.json({ success: true, message: 'Account activated!' }); 
                        }
                    });
@@ -353,7 +355,7 @@ module.exports = function(router){
                 if (err) {
                     console.log(err);
                 } else {
-                    var mailOptions = {
+                   /* var mailOptions = {
                         from: 'cs9287923@gmail.com',
                         to: user.email,
                         subject: 'Activation Link Request',
@@ -366,7 +368,7 @@ module.exports = function(router){
                         } else {
                             console.log('Email sent: ' + info.response);
                         }
-                    });
+                    });*/
                     res.json({ success: true, message: 'Activation link has been sent to ' + user.email + '!' }); 
                 }
             });
@@ -381,7 +383,7 @@ module.exports = function(router){
                 if(!user) {
                     res.json({ success: false, message: 'mobile was not found' });
                 } else{
-                    const from = 'Vonage APIs';
+                    /*const from = 'Vonage APIs';
                         const to = user.mobile;
                         const text = 'Hello from Vonage SMS API';
                     nexmo.message.sendSms(from, to, text, { type: 'unicode' }, (err, responseData) => {
@@ -408,7 +410,7 @@ module.exports = function(router){
                         } else {
                             console.log(info); 
                         }
-                    });
+                    });*/
                     res.json({ success: true, message: 'E-mail has been sent to sms and E-mail ! ' });
                 }
 
@@ -429,7 +431,7 @@ module.exports = function(router){
                     if (err) {
                         res.json({ success: false, message: err });
                     } else {
-                        var mailOptions = {
+                        /*var mailOptions = {
                             from: 'cs9287923@gmail.com',
                             to: user.email,
                             subject: 'Reset Password Request',
@@ -443,7 +445,7 @@ module.exports = function(router){
                                 console.log(info);
                                 console.log('sent to: ' + user.email); 
                             }
-                        });
+                        });*/
                         res.json({ success: true, message: 'Please check your e-mail for password reset link' });
                     }
                 });
@@ -482,7 +484,7 @@ module.exports = function(router){
                     if (err) {
                         res.json({ success: false, message: err });
                     } else {
-                        var mailOptions = {
+                       /* var mailOptions = {
                             from: 'cs9287923@gmail.com',
                             to: user.email,
                             subject: 'Password Recently Reset',
@@ -494,7 +496,7 @@ module.exports = function(router){
                             else {
                                 console.log(info);
                             }
-                        });
+                        });*/
                         res.json({ success: true, message: 'Password has been reset!' }); 
                     }
                 });
@@ -944,7 +946,7 @@ module.exports = function(router){
                     if(err) {
                         console.log(err);
                     } else{
-                        var mailOptions = {
+                        /*var mailOptions = {
                             from: 'HouseBuddy, cs9287923@gmail.com',
                             to: user.email,
                             subject: 'Your Confirm',
@@ -957,7 +959,7 @@ module.exports = function(router){
                             } else {
                               console.log('Email sent: ' + info.response);
                             }
-                        });
+                        });*/
                         res.json({ success: true, message: 'Account confirm for request Rent-House.'});
                     }
                });
@@ -1062,7 +1064,7 @@ module.exports = function(router){
                 res.json({ success: true, message: err });
             } else{
 
-                var mailOptions = {
+                /*var mailOptions = {
                     from: 'cs9287923@gmail.com',
                     to: b.temail,
                     subject: 'House Booking',
@@ -1088,7 +1090,7 @@ module.exports = function(router){
                     else {
                         console.log(info);
                     }
-                });
+                });*/
                 res.json({ success: true, message: 'House is Booked Check your E-mail for confirmation.'});
             }
         });

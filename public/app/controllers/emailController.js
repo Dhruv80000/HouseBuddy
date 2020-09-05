@@ -79,7 +79,7 @@ app.controller("resetemailCtrl", function(User, $timeout, $location){
     }
 });
 
-app.controller("passwordCtrl", function(User){
+app.controller("passwordCtrl", function(User, $location){
     app = this;
 
     app.sendPassword = function(resetData, valid) {
@@ -95,6 +95,7 @@ app.controller("passwordCtrl", function(User){
 
                 if (data.data.success) {
                     app.successmsg = data.data.message; 
+                    //$location.path('/reset');
                 } else {
                     app.disabled = false;
                     app.errormsg = data.data.message;
@@ -103,8 +104,8 @@ app.controller("passwordCtrl", function(User){
         } else {
             app.disabled = false;
             app.loading = false;
-            app.errormsg = 'Please enter a valid username'; 
-        } 
+            app.errormsg = 'Please enter a valid E-mail!'; 
+        }
     }
 });
 
