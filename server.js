@@ -16,7 +16,7 @@ app.use(express.static(__dirname+"/public"));
 app.use('/api',appRoutes);
 //app.use('/bookapi',appRoutesB);
 
-mongoose.connect('mongodb+srv://mongodbuser:mongodbuser@cluster0-mvmyh.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true,  useCreateIndex: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://Mongodbuser:Mongodbuser@cluster0-mvmyh.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true,  useCreateIndex: true, useUnifiedTopology: true });
 //mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true,  useCreateIndex: true, useUnifiedTopology: true});
 var conn = mongoose.connection;
 
